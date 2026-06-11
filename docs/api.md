@@ -5,9 +5,9 @@ Document the package's public Python API here.
 ## `do_useful_thing`
 
 ```python
-import mypackage
+import veneer
 
-result = mypackage.do_useful_thing("world")
+result = veneer.do_useful_thing("world")
 ```
 
 `do_useful_thing` is the starter public function exposed by this template.

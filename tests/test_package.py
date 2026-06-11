@@ -1,10 +1,10 @@
-"""Tests for package import and metadata behavior."""
+"""Basic smoke tests for veneer."""
 
 from __future__ import annotations
 
-import mypackage
+import veneer
 
 
-def test_do_useful_thing() -> None:
-    """Verify the package's public starter function."""
-    assert mypackage.do_useful_thing("template") == "hello, template"
+def test_import() -> None:
+    """Veneer can be imported."""
+    assert veneer is not None

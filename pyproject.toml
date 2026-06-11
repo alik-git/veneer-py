@@ -3,18 +3,18 @@ requires = ["hatchling>=1.25"]
 build-backend = "hatchling.build"
 
 [project]
-name = "mypackage"
+name = "veneer-py"
 version = "0.1.0"
-description = "Minimal Python package template."
+description = "Lightweight overlay venv manager for worktrees with shared conda bases."
 readme = "README.md"
 requires-python = ">=3.11"
 authors = [
-  { name = "Your Name", email = "you@example.com" },
+  { name = "Ali K", email = "akuwajerwala@minervahumanoids.com" },
 ]
 maintainers = [
-  { name = "Your Name", email = "you@example.com" },
+  { name = "Ali K", email = "akuwajerwala@minervahumanoids.com" },
 ]
-keywords = ["python", "template", "package"]
+keywords = ["python", "venv", "conda", "worktree", "environment"]
 classifiers = [
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.11",
@@ -36,15 +36,15 @@ dev = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/mypackage"]
+packages = ["src/veneer"]
 
 [project.scripts]
-mypackage = "mypackage.cli:main"
+veneer = "veneer.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/alik-git/python_package_template"
-Repository = "https://github.com/alik-git/python_package_template"
-Issues = "https://github.com/alik-git/python_package_template/issues"
+Homepage = "https://github.com/alik-git/veneer-py"
+Repository = "https://github.com/alik-git/veneer-py"
+Issues = "https://github.com/alik-git/veneer-py/issues"
 
 [tool.ruff]
 line-length = 88
@@ -112,7 +112,7 @@ ignore = [
 "tests/**/*.py" = ["S101"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["mypackage"]
+known-first-party = ["veneer"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
@@ -122,7 +122,7 @@ docstring-code-format = true
 
 [tool.mypy]
 python_version = "3.11"
-files = ["src/mypackage"]
+files = ["src/veneer"]
 
 # Type-check function bodies even before every function is fully annotated.
 check_untyped_defs = true
