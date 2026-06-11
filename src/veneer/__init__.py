@@ -1,7 +1,7 @@
-"""Veneer — lightweight overlay venv manager for worktrees with shared conda bases."""
+"""Veneer command runner package."""
 
 from __future__ import annotations
 
-import logging
+__all__ = ["__version__"]
 
-logging.getLogger(__name__).addHandler(logging.NullHandler())
+__version__ = "0.1.0"
