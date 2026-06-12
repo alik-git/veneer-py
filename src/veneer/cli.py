@@ -79,7 +79,7 @@ def _main(args: list[str]) -> int:
         update_editables(config)
         return 0
     if command == "clean":
-        clean(config, allow_shared=parse_clean_args(args[1:]))
+        clean(config)
         return 0
 
     reject_editable_pip_install(args)
@@ -113,8 +113,8 @@ def ensure_venv(config: VeneerConfig) -> None:
 
     config.venv.parent.mkdir(parents=True, exist_ok=True)
     print(
-        f"Creating {display_path(config.venv, root=config.env_root)} from conda env: "
-        f"{config.base_conda_env}",
+        f"Creating {display_path(config.venv, root=config.project_root)}"
+        f" from conda env: {config.base_conda_env}",
         file=sys.stderr,
     )
     run_checked(
@@ -130,7 +130,7 @@ def ensure_venv(config: VeneerConfig) -> None:
             "--system-site-packages",
             str(config.venv),
         ],
-        cwd=config.env_root,
+        cwd=config.project_root,
     )
 
 
@@ -158,33 +158,21 @@ def update_editables(config: VeneerConfig) -> None:
         )
 
 
-def clean(config: VeneerConfig, *, allow_shared: bool = False) -> None:
+def clean(config: VeneerConfig) -> None:
     """Remove the worktree virtual environment."""
-    if config.uses_shared_venv and not allow_shared:
-        raise VeneerError(
-            "refusing to remove shared stack venv without --shared:\n"
-            f"  env root: {config.env_root}\n"
-            f"  venv: {config.venv}\n\n"
-            "Run `veneer clean --shared` if you intentionally want to remove it.",
-        )
     if not config.venv.exists():
-        print(f"Already clean: {display_path(config.venv, root=config.env_root)}")
+        print(f"Already clean: {display_path(config.venv, root=config.project_root)}")
         return
     if not config.venv.is_dir():
         raise VeneerError(f"venv path exists but is not a directory: {config.venv}")
     shutil.rmtree(config.venv)
-    print(f"Removed {display_path(config.venv, root=config.env_root)}")
+    print(f"Removed {display_path(config.venv, root=config.project_root)}")
 
 
 def print_info(config: VeneerConfig) -> None:
     """Print the active veneer configuration."""
     print(f"project root: {config.project_root}")
-    print(f"entry config: {config.entry_config_path}")
-    print(f"effective config: {config.config_path}")
-    print(f"config kind: {config.config_kind}")
-    print(f"shared venv: {yes_no(config.uses_shared_venv)}")
-    print(f"config root: {config.config_root}")
-    print(f"env root: {config.env_root}")
+    print(f"config: {config.config_path}")
     print(f"command cwd: {config.command_cwd}")
     print(f"base conda env: {config.base_conda_env}")
     print(f"venv: {config.venv}")
@@ -274,15 +262,10 @@ def reject_editable_pip_install(args: list[str]) -> None:
     )
 
 
-def parse_clean_args(args: list[str]) -> bool:
-    """Parse arguments for ``veneer clean``."""
-    allow_shared = False
+def parse_clean_args(args: list[str]) -> None:
+    """Parse arguments for ``veneer clean`` (no arguments supported)."""
     for arg in args:
-        if arg == "--shared":
-            allow_shared = True
-            continue
         raise VeneerError(f"unknown clean option: {arg}")
-    return allow_shared
 
 
 def _is_pip_install(args: list[str]) -> bool:
