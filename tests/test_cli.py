@@ -38,7 +38,6 @@ def config(root: Path, *, editables: tuple[Path, ...] = ()) -> VeneerConfig:
     )
 
 
-
 def write_launcher_status(args: list[str], returncode: int) -> None:
     """Write the child status path embedded in a conda launcher command."""
     Path(args[10]).write_text(f"{returncode}\n", encoding="utf-8")

@@ -60,9 +60,7 @@ def load_config(root: Path) -> VeneerConfig:
     editables = _table(raw, "editables", required=False)
     editable_values = _optional_string_list(editables, "packages")
     install_deps = _optional_bool(editables, "install_deps", default=False)
-    editable_packages = tuple(
-        _resolve_path(project_root, v) for v in editable_values
-    )
+    editable_packages = tuple(_resolve_path(project_root, v) for v in editable_values)
 
     return VeneerConfig(
         project_root=project_root,
